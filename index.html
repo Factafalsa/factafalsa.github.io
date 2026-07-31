@@ -1,212 +1,118 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Facta Falsa – Faktenchecker</title>
+  <meta name="description" content="Facta Falsa ist ein moderner Faktenchecker als Browser-Erweiterung und Website.">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #222;
+      text-align: center;
+    }
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    .hero {
+      background: linear-gradient(135deg, #1976d2, #00acc1);
+      color: white;
+      padding: 60px 20px;
+    }
 
-    <title>Facta Falsa – Fakten schnell und zuverlässig prüfen</title>
+    .hero img {
+      max-width: 320px;
+      width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,.2);
+    }
 
-    <meta name="description"
-        content="Facta Falsa ist eine moderne Plattform zum Überprüfen von Behauptungen mithilfe der Google Fact Check Tools API.">
+    h1 {
+      font-size: 42px;
+      margin-top: 25px;
+    }
 
-    <link rel="stylesheet" href="style.css">
+    p {
+      font-size: 18px;
+      max-width: 700px;
+      margin: 15px auto;
+      line-height: 1.6;
+    }
 
+    .section {
+      padding: 50px 20px;
+    }
+
+    .card {
+      background: white;
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 30px;
+      border-radius: 18px;
+      box-shadow: 0 4px 15px rgba(0,0,0,.08);
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 14px 28px;
+      background: #1976d2;
+      color: white;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: bold;
+    }
+
+    .button:hover {
+      background: #1565c0;
+    }
+
+    footer {
+      padding: 30px;
+      color: #666;
+      font-size: 14px;
+    }
+  </style>
 </head>
-
 <body>
 
-    <!-- ================= HEADER ================= -->
-
-    <header>
-
-        <div class="hero">
-
-            <img src="logo.png.png" alt="Facta Falsa Logo" class="hero-logo">
-
-            <h1>Fakten schnell und zuverlässig prüfen.</h1>
-
-            <p>
-                Facta Falsa durchsucht veröffentlichte Faktenchecks
-                und hilft dabei, Aussagen schnell zu überprüfen.
-            </p>
-
-            <div class="hero-buttons">
-
-                <a href="#online" class="button primary">
-                    🔍 Online testen
-                </a>
-
-                <a href="#download" class="button secondary">
-                    🧩 Browser-Erweiterung
-                </a>
-
-            </div>
-
-        </div>
-
-    </header>
-
-    <!-- ================= FEATURES ================= -->
-
-    <section class="features">
-
-        <h2>Warum Facta Falsa?</h2>
-
-        <div class="cards">
-
-            <div class="card">
-
-                <h3>⚡ Schnell</h3>
-
-                <p>
-                    Faktenchecks innerhalb weniger Sekunden finden.
-                </p>
-
-            </div>
-
-            <div class="card">
-
-                <h3>🛡️ Zuverlässig</h3>
-
-                <p>
-                    Nutzt veröffentlichte Faktenchecks verschiedener Organisationen.
-                </p>
-
-            </div>
-
-            <div class="card">
-
-                <h3>🌍 Kostenlos</h3>
-
-                <p>
-                    Frei nutzbar – direkt im Browser oder über die Erweiterung.
-                </p>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- ================= HOW IT WORKS ================= -->
-
-    <section class="how">
-
-        <h2>So funktioniert es</h2>
-
-        <div class="steps">
-
-            <div class="step">
-
-                <div class="icon">📝</div>
-
-                <h3>1. Behauptung eingeben</h3>
-
-                <p>
-                    Gib einen Satz oder eine Behauptung ein.
-                </p>
-
-            </div>
-
-            <div class="step">
-
-                <div class="icon">🌐</div>
-
-                <h3>2. Faktenchecks durchsuchen</h3>
-
-                <p>
-                    Facta Falsa sucht passende veröffentlichte Faktenchecks.
-                </p>
-
-            </div>
-
-            <div class="step">
-
-                <div class="icon">✅</div>
-
-                <h3>3. Ergebnis erhalten</h3>
-
-                <p>
-                    Lies die Bewertungen und öffne den vollständigen Faktencheck.
-                </p>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- ================= ONLINE ================= -->
-
-    <section id="online" class="online">
-
-        <h2>Online-Faktenprüfung</h2>
-
-        <p>
-
-            Diese Funktion befindet sich derzeit im Aufbau.
-
-            Schon bald kannst du Behauptungen direkt auf der Website überprüfen.
-
-        </p>
-
-        <button class="button primary" disabled>
-
-            Demnächst verfügbar
-
-        </button>
-
-    </section>
-
-    <!-- ================= DOWNLOAD ================= -->
-
-    <section id="download" class="download">
-
-        <h2>Browser-Erweiterung</h2>
-
-        <p>
-
-            Die Facta-Falsa-Erweiterung ermöglicht das Prüfen
-            markierter Texte direkt im Browser.
-
-        </p>
-
-        <button class="button secondary">
-
-            Download folgt
-
-        </button>
-
-    </section>
-
-    <!-- ================= FOOTER ================= -->
-
-    <footer>
-
-        <p>
-
-            © 2026 Facta Falsa
-
-        </p>
-
-        <nav>
-
-            <a href="#">Datenschutz</a>
-
-            <a href="#">Impressum</a>
-
-            <a href="https://github.com/Factafalsa/facta-falsa" target="_blank">
-
-                GitHub
-
-            </a>
-
-        </nav>
-
-    </footer>
+  <section class="hero">
+    <img src="logo.png.png" alt="Facta Falsa Logo">
+    <h1>Facta Falsa</h1>
+    <p>Der moderne Faktenchecker für Browser und Web.</p>
+  </section>
+
+  <section class="section">
+    <div class="card">
+      <h2>Was ist Facta Falsa?</h2>
+      <p>
+        Facta Falsa hilft dabei, Behauptungen mithilfe veröffentlichter Faktenchecks zu überprüfen.
+        Die Browser-Erweiterung nutzt die Google Fact Check Tools API und zeigt passende
+        Faktenchecks von vertrauenswürdigen Quellen an.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Browser-Erweiterung</h2>
+      <p>
+        Markiere Text auf einer Webseite und prüfe ihn direkt mit Facta Falsa. 
+        Durch eine Erweiterung kannst du Facta Falsa in Chrome oder Edge ohne eine seperate Website
+        benutzen.
+      </p>
+      <a class="button" href="#">Demnächst downloadbar</a>
+    </div>
+
+    <div class="card">
+      <h2>Online-Faktenprüfung</h2>
+      <p>
+        Eine öffentliche Web-Version der Faktenprüfung befindet sich derzeit in Entwicklung.
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    © 2026 Facta Falsa
+  </footer>
 
 </body>
-
 </html>
