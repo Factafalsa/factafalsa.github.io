@@ -3,8 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Facta Falsa – Faktenchecker</title>
-  <meta name="description" content="Facta Falsa ist ein moderner Faktenchecker als Browser-Erweiterung und Website.">
+
+  <meta
+    name="description"
+    content="Facta Falsa ist ein moderner Faktenchecker als Browser-Erweiterung und Website."
+  >
+
   <style>
     body {
       margin: 0;
@@ -61,10 +67,111 @@
       text-decoration: none;
       border-radius: 12px;
       font-weight: bold;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
     }
 
     .button:hover {
       background: #1565c0;
+    }
+
+    .button:disabled {
+      background: #999;
+      cursor: not-allowed;
+    }
+
+    /* ==============================
+       ONLINE FAKTENPRÜFUNG
+       ============================== */
+
+    .check-input {
+      width: 90%;
+      max-width: 650px;
+      min-height: 100px;
+      margin-top: 15px;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      resize: vertical;
+      box-sizing: border-box;
+    }
+
+    .check-input:focus {
+      outline: none;
+      border-color: #1976d2;
+      box-shadow: 0 0 0 3px rgba(25,118,210,.15);
+    }
+
+    #loading {
+      display: none;
+      margin-top: 20px;
+      font-weight: bold;
+      color: #1976d2;
+    }
+
+    #results {
+      margin-top: 25px;
+      text-align: left;
+    }
+
+    .fact-card {
+      background: #f8fafc;
+      border-radius: 14px;
+      padding: 20px;
+      margin-top: 15px;
+      border: 1px solid #e1e6eb;
+    }
+
+    .fact-card h3 {
+      margin-top: 0;
+      color: #1976d2;
+    }
+
+    .claim {
+      margin-top: 12px;
+      line-height: 1.5;
+    }
+
+    .rating {
+      margin-top: 12px;
+      font-weight: bold;
+    }
+
+    .date {
+      margin-top: 8px;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .fact-card a {
+      display: inline-block;
+      margin-top: 15px;
+      color: #1976d2;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .fact-card a:hover {
+      text-decoration: underline;
+    }
+
+    .no-result {
+      background: #f8fafc;
+      padding: 20px;
+      border-radius: 14px;
+      text-align: center;
+      color: #555;
+    }
+
+    .error {
+      background: #fff0f0;
+      color: #b00020;
+      padding: 20px;
+      border-radius: 14px;
+      margin-top: 15px;
     }
 
     footer {
@@ -74,45 +181,344 @@
     }
   </style>
 </head>
+
 <body>
 
+  <!-- ==============================
+       HERO
+       ============================== -->
+
   <section class="hero">
+
     <img src="logo.png.png" alt="Facta Falsa Logo">
+
     <h1>Facta Falsa</h1>
-    <p>Der moderne Faktenchecker für Browser und Web.</p>
+
+    <p>
+      Der moderne Faktenchecker für Browser und Web.
+    </p>
+
   </section>
+
+
+  <!-- ==============================
+       INHALT
+       ============================== -->
 
   <section class="section">
+
+    <!-- WAS IST FACTA FALSA -->
+
     <div class="card">
+
       <h2>Was ist Facta Falsa?</h2>
+
       <p>
-        Facta Falsa hilft dabei, Behauptungen mithilfe veröffentlichter Faktenchecks zu überprüfen.
-        Die Browser-Erweiterung nutzt die Google Fact Check Tools API und zeigt passende
-        Faktenchecks von vertrauenswürdigen Quellen an.
+        Facta Falsa hilft dabei, Behauptungen mithilfe veröffentlichter
+        Faktenchecks zu überprüfen. Die Browser-Erweiterung nutzt die
+        Google Fact Check Tools API und zeigt passende Faktenchecks von
+        vertrauenswürdigen Quellen an.
       </p>
+
     </div>
 
+
+    <!-- BROWSER ERWEITERUNG -->
+
     <div class="card">
+
       <h2>Browser-Erweiterung</h2>
+
       <p>
-        Markiere Text auf einer Webseite und prüfe ihn direkt mit Facta Falsa. 
-        Durch eine Erweiterung kannst du Facta Falsa in Chrome oder Edge ohne eine seperate Website
-        benutzen.
+        Markiere Text auf einer Webseite und prüfe ihn direkt mit
+        Facta Falsa. Durch eine Erweiterung kannst du Facta Falsa
+        in Chrome oder Edge ohne eine separate Website benutzen.
       </p>
-      <a class="button" href="#">Demnächst downloadbar</a>
+
+      <a class="button" href="#">
+        Demnächst downloadbar
+      </a>
+
     </div>
 
+
+    <!-- ONLINE FAKTENPRÜFUNG -->
+
     <div class="card">
+
       <h2>Online-Faktenprüfung</h2>
+
       <p>
-        Eine öffentliche Web-Version der Faktenprüfung befindet sich derzeit in Entwicklung.
+        Gib eine Behauptung ein und suche direkt nach passenden
+        veröffentlichten Faktenchecks.
       </p>
+
+      <textarea
+        id="checkInput"
+        class="check-input"
+        placeholder="z. B. Die Erde ist flach."
+      ></textarea>
+
+      <br>
+
+      <button
+        id="checkButton"
+        class="button"
+      >
+        🔍 Fakten prüfen
+      </button>
+
+      <div id="loading">
+        Faktenchecks werden gesucht...
+      </div>
+
+      <div id="results"></div>
+
     </div>
+
   </section>
 
+
+  <!-- ==============================
+       FOOTER
+       ============================== -->
+
   <footer>
+
     © 2026 Facta Falsa
+
   </footer>
+
+
+  <!-- ==============================
+       JAVASCRIPT
+       ============================== -->
+
+  <script>
+
+    const API_URL =
+      "https://factafalsa-backend.random-sachen884.workers.dev/";
+
+
+    const input =
+      document.getElementById("checkInput");
+
+    const button =
+      document.getElementById("checkButton");
+
+    const loading =
+      document.getElementById("loading");
+
+    const results =
+      document.getElementById("results");
+
+
+    button.addEventListener("click", async () => {
+
+      const query =
+        input.value.trim();
+
+
+      if (!query) {
+
+        alert("Bitte zuerst eine Behauptung eingeben.");
+
+        return;
+
+      }
+
+
+      button.disabled = true;
+
+      loading.style.display = "block";
+
+      results.innerHTML = "";
+
+
+      try {
+
+        const url =
+          API_URL +
+          "?query=" +
+          encodeURIComponent(query);
+
+
+        const response =
+          await fetch(url);
+
+
+        if (!response.ok) {
+
+          const errorText =
+            await response.text();
+
+          throw new Error(errorText);
+
+        }
+
+
+        const data =
+          await response.json();
+
+
+        renderResults(data);
+
+
+      } catch (error) {
+
+        console.error(error);
+
+
+        results.innerHTML = `
+          <div class="error">
+            <strong>Fehler beim Faktencheck</strong><br><br>
+            ${escapeHtml(error.message)}
+          </div>
+        `;
+
+      } finally {
+
+        loading.style.display = "none";
+
+        button.disabled = false;
+
+      }
+
+    });
+
+
+    function renderResults(data) {
+
+      results.innerHTML = "";
+
+
+      if (
+        !data.claims ||
+        data.claims.length === 0
+      ) {
+
+        results.innerHTML = `
+          <div class="no-result">
+            Zu dieser Aussage wurde kein veröffentlichter
+            Faktencheck gefunden.
+          </div>
+        `;
+
+        return;
+
+      }
+
+
+      data.claims.forEach(claim => {
+
+        const reviews =
+          claim.claimReview || [];
+
+
+        reviews.forEach(review => {
+
+          const publisher =
+            review.publisher?.name ||
+            "Unbekannte Quelle";
+
+
+          const rating =
+            review.textualRating ||
+            "Keine Bewertung verfügbar";
+
+
+          const url =
+            review.url || "#";
+
+
+          const date =
+            review.reviewDate || "";
+
+
+          const title =
+            review.title ||
+            "Faktencheck";
+
+
+          const card =
+            document.createElement("div");
+
+
+          card.className =
+            "fact-card";
+
+
+          card.innerHTML = `
+
+            <h3>
+              ${escapeHtml(publisher)}
+            </h3>
+
+            <strong>
+              ${escapeHtml(title)}
+            </strong>
+
+            <div class="claim">
+
+              <strong>Behauptung:</strong><br>
+
+              ${escapeHtml(claim.text || "-")}
+
+            </div>
+
+            <div class="rating">
+
+              Bewertung:<br>
+
+              ${escapeHtml(rating)}
+
+            </div>
+
+            ${
+              date
+                ? `<div class="date">
+                     Prüfdatum: ${escapeHtml(date)}
+                   </div>`
+                : ""
+            }
+
+            ${
+              url !== "#"
+                ? `<a
+                     href="${escapeHtml(url)}"
+                     target="_blank"
+                     rel="noopener noreferrer"
+                   >
+                     Faktencheck öffnen →
+                   </a>`
+                : ""
+            }
+
+          `;
+
+
+          results.appendChild(card);
+
+        });
+
+      });
+
+    }
+
+
+    function escapeHtml(text) {
+
+      const div =
+        document.createElement("div");
+
+      div.textContent =
+        text;
+
+      return div.innerHTML;
+
+    }
+
+  </script>
 
 </body>
 </html>
