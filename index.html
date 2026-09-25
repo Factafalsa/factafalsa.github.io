@@ -1,525 +1,205 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Facta Falsa</title>
-
-  <meta
-    name="description"
-    content="Facta Falsa ist ein moderner Faktenchecker als Browser-Erweiterung und Website."
-  >
-
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f7fb;
-      color: #222;
-      text-align: center;
-    }
-
-    .hero {
-      background: linear-gradient(135deg, #1976d2, #00acc1);
-      color: white;
-      padding: 60px 20px;
-    }
-
-    .hero img {
-      max-width: 320px;
-      width: 100%;
-      border-radius: 20px;
-      box-shadow: 0 10px 25px rgba(0,0,0,.2);
-    }
-
-    h1 {
-      font-size: 42px;
-      margin-top: 25px;
-    }
-
-    p {
-      font-size: 18px;
-      max-width: 700px;
-      margin: 15px auto;
-      line-height: 1.6;
-    }
-
-    .section {
-      padding: 50px 20px;
-    }
-
-    .card {
-      background: white;
-      max-width: 800px;
-      margin: 20px auto;
-      padding: 30px;
-      border-radius: 18px;
-      box-shadow: 0 4px 15px rgba(0,0,0,.08);
-    }
-
-    .button {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 14px 28px;
-      background: #1976d2;
-      color: white;
-      text-decoration: none;
-      border-radius: 12px;
-      font-weight: bold;
-      border: none;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    .button:hover {
-      background: #1565c0;
-    }
-
-    .button:disabled {
-      background: #999;
-      cursor: not-allowed;
-    }
-
-    /* ==============================
-       ONLINE FAKTENPRÜFUNG
-       ============================== */
-
-    .check-input {
-      width: 90%;
-      max-width: 650px;
-      min-height: 100px;
-      margin-top: 15px;
-      padding: 15px;
-      border: 1px solid #ccc;
-      border-radius: 12px;
-      font-family: Arial, sans-serif;
-      font-size: 16px;
-      resize: vertical;
-      box-sizing: border-box;
-    }
-
-    .check-input:focus {
-      outline: none;
-      border-color: #1976d2;
-      box-shadow: 0 0 0 3px rgba(25,118,210,.15);
-    }
-
-    #loading {
-      display: none;
-      margin-top: 20px;
-      font-weight: bold;
-      color: #1976d2;
-    }
-
-    #results {
-      margin-top: 25px;
-      text-align: left;
-    }
-
-    .fact-card {
-      background: #f8fafc;
-      border-radius: 14px;
-      padding: 20px;
-      margin-top: 15px;
-      border: 1px solid #e1e6eb;
-    }
-
-    .fact-card h3 {
-      margin-top: 0;
-      color: #1976d2;
-    }
-
-    .claim {
-      margin-top: 12px;
-      line-height: 1.5;
-    }
-
-    .rating {
-      margin-top: 12px;
-      font-weight: bold;
-    }
-
-    .date {
-      margin-top: 8px;
-      color: #666;
-      font-size: 14px;
-    }
-
-    .fact-card a {
-      display: inline-block;
-      margin-top: 15px;
-      color: #1976d2;
-      font-weight: bold;
-      text-decoration: none;
-    }
-
-    .fact-card a:hover {
-      text-decoration: underline;
-    }
-
-    .no-result {
-      background: #f8fafc;
-      padding: 20px;
-      border-radius: 14px;
-      text-align: center;
-      color: #555;
-    }
-
-    .error {
-      background: #fff0f0;
-      color: #b00020;
-      padding: 20px;
-      border-radius: 14px;
-      margin-top: 15px;
-    }
-
-    footer {
-      padding: 30px;
-      color: #666;
-      font-size: 14px;
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Facta Falsa – Faktencheck</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  :root{--bg:#F6F3EC;--ink:#1B1A17;--muted:#4A473F;--line:#DDD7C8;--accent:#8A2E24;--accent-dark:#5F1F19;
+        --true:#3C7350;--true-dot:#4C8F63;--mixed:#9B7A2E;--mixed-dot:#C89B3C;--false:#B3453A;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"IBM Plex Sans",system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+  h1,h2,h3{font-family:"Newsreader",Georgia,serif;font-weight:600;margin:0}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{color:var(--accent-dark)}
+  header{display:flex;align-items:center;justify-content:space-between;padding:24px 64px;border-bottom:1px solid var(--line);flex-wrap:wrap;gap:16px}
+  nav{display:flex;gap:28px;font-size:15px;font-weight:500}
+  nav a{color:var(--ink)}
+  nav a:hover{color:var(--accent)}
+  .btn{background:var(--accent);color:#fff;padding:11px 22px;border-radius:4px;font-size:14px;font-weight:600;border:none;cursor:pointer;font-family:inherit}
+  .btn:hover{background:var(--accent-dark);color:#fff}
+  .hero{padding:80px 64px 56px;max-width:900px}
+  .eyebrow{font-size:14px;font-weight:600;letter-spacing:.08em;color:var(--accent);margin-bottom:18px}
+  .hero h2{font-size:48px;line-height:1.15}
+  .hero p{font-size:18px;line-height:1.6;color:var(--muted);max-width:620px;margin-top:22px}
+  .legend{background:var(--ink);padding:24px 64px;display:flex;gap:40px;align-items:center;flex-wrap:wrap}
+  .legend span.lbl{color:#B9B4A4;font-size:13px;font-weight:600;letter-spacing:.06em}
+  .dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+  .legend .item{display:flex;align-items:center;gap:8px;color:#F6F3EC;font-size:14px}
+  section.search{padding:64px;border-bottom:1px solid var(--line);background:#fff}
+  .search h3{font-size:30px;margin-bottom:10px}
+  .search > p{font-size:15px;color:var(--muted);max-width:640px;margin:0 0 28px;line-height:1.5}
+  .search-row{display:flex;gap:12px;max-width:720px}
+  .search-row input{flex-grow:1;padding:14px 16px;border:1px solid var(--line);border-radius:4px;font-size:15px;font-family:inherit}
+  #charCounter{font-size:12px;color:#7A7566;margin:8px 0 0}
+  #loading{display:none;font-size:14px;color:#7A7566;align-items:center;gap:10px;margin-top:24px}
+  .spinner{width:14px;height:14px;border:2px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  #resultCount{font-size:13px;color:#7A7566;margin:24px 0 16px}
+  #results{display:flex;flex-direction:column;gap:16px;max-width:720px}
+  .fact-card{border:1px solid var(--line);border-radius:8px;padding:20px;display:flex;flex-direction:column;gap:8px}
+  .fact-card h3{font-size:14px;font-family:"IBM Plex Sans",sans-serif;font-weight:600}
+  .rating{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600}
+  .rating-true{color:var(--true)}.rating-mixed{color:var(--mixed)}.rating-false{color:var(--false)}.rating-unknown{color:#7A7566}
+  .claim{font-size:15px;line-height:1.5}
+  .publisher,.date{font-size:12px;color:#7A7566}
+  .no-result,.error{font-size:14px;color:var(--muted)}
+  footer{background:var(--ink);color:#B9B4A4;padding:40px 64px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px;font-size:13px}
+  footer .brand{font-family:"Newsreader",serif;color:#F6F3EC;font-size:20px;margin-bottom:8px}
+  footer a{color:#B9B4A4}
+</style>
 </head>
-
 <body>
 
-  <!-- ==============================
-       HERO
-       ============================== -->
-
-  <section class="hero">
-
-    <img src="logo.png.png" alt="Facta Falsa Logo">
-
-    <h1>Facta Falsa</h1>
-
-    <p>
-      Der moderne Faktenchecker für Browser und Web.
-    </p>
-
-  </section>
-
-
-  <!-- ==============================
-       INHALT
-       ============================== -->
-
-  <section class="section">
-
-    <!-- WAS IST FACTA FALSA -->
-
-    <div class="card">
-
-      <h2>Was ist Facta Falsa?</h2>
-
-      <p>
-        Facta Falsa hilft dabei, Behauptungen mithilfe veröffentlichter
-        Faktenchecks zu überprüfen. Die Browser-Erweiterung nutzt die
-        Google Fact Check Tools API und zeigt passende Faktenchecks von
-        vertrauenswürdigen Quellen an. Alternativ kannst du mit dem 
-        gleichem Prinzip auch direkt auf der Website Fakten überprüfen.
-      </p>
-
-    </div>
-
-
-    <!-- BROWSER ERWEITERUNG -->
-
-    <div class="card">
-
-      <h2>Browser-Erweiterung</h2>
-
-      <p>
-        Markiere Text auf einer Webseite und prüfe ihn direkt mit
-        Facta Falsa. Durch eine Erweiterung kannst du Facta Falsa
-        in Chrome oder Edge ohne eine separate Website benutzen.
-      </p>
-
-      <a class="button" href="#">
-        Demnächst downloadbar
-      </a>
-
-    </div>
-
-
-    <!-- ONLINE FAKTENPRÜFUNG -->
-
-    <div class="card">
-
-      <h2>Online-Faktenprüfung</h2>
-
-      <p>
-        Gib eine Behauptung ein und in der Google-Datenbank wird direkt nach passenden
-        veröffentlichten Faktenchecks gesucht.
-      </p>
-
-      <textarea
-        id="checkInput"
-        class="check-input"
-        placeholder="z. B. 5g verursacht Corona."
-      ></textarea>
-
-      <br>
-
-      <button
-        id="checkButton"
-        class="button"
-      >
-        🔍 Fakten prüfen
-      </button>
-
-      <div id="loading">
-        Faktenchecks werden gesucht...
-      </div>
-
-      <div id="results"></div>
-
-    </div>
-
-  </section>
-
-
-  <!-- ==============================
-       FOOTER
-       ============================== -->
-
-  <footer>
-
-    © 2026 Facta Falsa
-
-  </footer>
-
-
-  <!-- ==============================
-       JAVASCRIPT
-       ============================== -->
-
-  <script>
-
-    const API_URL =
-      "https://factafalsa-backend.random-sachen884.workers.dev/";
-
-
-    const input =
-      document.getElementById("checkInput");
-
-    const button =
-      document.getElementById("checkButton");
-
-    const loading =
-      document.getElementById("loading");
-
-    const results =
-      document.getElementById("results");
-
-
-    button.addEventListener("click", async () => {
-
-      const query =
-        input.value.trim();
-
-
-      if (!query) {
-
-        alert("Bitte zuerst eine Behauptung eingeben.");
-
-        return;
-
-      }
-
-
-      button.disabled = true;
-
-      loading.style.display = "block";
-
-      results.innerHTML = "";
-
-
-      try {
-
-        const url =
-          API_URL +
-          "?query=" +
-          encodeURIComponent(query);
-
-
-        const response =
-          await fetch(url);
-
-
-        if (!response.ok) {
-
-          const errorText =
-            await response.text();
-
-          throw new Error(errorText);
-
-        }
-
-
-        const data =
-          await response.json();
-
-
-        renderResults(data);
-
-
-      } catch (error) {
-
-        console.error(error);
-
-
-        results.innerHTML = `
-          <div class="error">
-            <strong>Fehler beim Faktencheck</strong><br><br>
-            ${escapeHtml(error.message)}
-          </div>
-        `;
-
-      } finally {
-
-        loading.style.display = "none";
-
-        button.disabled = false;
-
-      }
-
-    });
-
-
-    function renderResults(data) {
-
-      results.innerHTML = "";
-
-
-      if (
-        !data.claims ||
-        data.claims.length === 0
-      ) {
-
-        results.innerHTML = `
-          <div class="no-result">
-            Zu dieser Aussage wurde kein veröffentlichter
-            Faktencheck gefunden.
-          </div>
-        `;
-
-        return;
-
-      }
-
-
-      data.claims.forEach(claim => {
-
-        const reviews =
-          claim.claimReview || [];
-
-
-        reviews.forEach(review => {
-
-          const publisher =
-            review.publisher?.name ||
-            "Unbekannte Quelle";
-
-
-          const rating =
-            review.textualRating ||
-            "Keine Bewertung verfügbar";
-
-
-          const url =
-            review.url || "#";
-
-
-          const date =
-            review.reviewDate || "";
-
-
-          const title =
-            review.title ||
-            "Faktencheck";
-
-
-          const card =
-            document.createElement("div");
-
-
-          card.className =
-            "fact-card";
-
-
-          card.innerHTML = `
-
-            <h3>
-              ${escapeHtml(publisher)}
-            </h3>
-
-            <strong>
-              ${escapeHtml(title)}
-            </strong>
-
-            <div class="claim">
-
-              <strong>Behauptung:</strong><br>
-
-              ${escapeHtml(claim.text || "-")}
-
-            </div>
-
-            <div class="rating">
-
-              Bewertung:<br>
-
-              ${escapeHtml(rating)}
-
-            </div>
-
-            ${
-              date
-                ? `<div class="date">
-                     Prüfdatum: ${escapeHtml(date)}
-                   </div>`
-                : ""
-            }
-
-            ${
-              url !== "#"
-                ? `<a
-                     href="${escapeHtml(url)}"
-                     target="_blank"
-                     rel="noopener noreferrer"
-                   >
-                     Faktencheck öffnen →
-                   </a>`
-                : ""
-            }
-
-          `;
-
-
-          results.appendChild(card);
-
-        });
-
-      });
-
-    }
-
-
-    function escapeHtml(text) {
-
-      const div =
-        document.createElement("div");
-
-      div.textContent =
-        text;
-
-      return div.innerHTML;
-
-    }
-
-  </script>
-
+<header>
+  <div style="display:flex;align-items:baseline;gap:8px">
+    <h1 style="font-size:24px">Facta Falsa</h1>
+    <span style="font-size:12px;color:#7A7566;letter-spacing:.04em">FAKTENCHECK</span>
+  </div>
+  <nav>
+    <a href="#suche">Faktencheck-Suche</a>
+    <a href="#methodik">Methodik</a>
+    <a href="#kontakt">Kontakt</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="eyebrow">UNABHÄNGIGER FAKTENCHECK</div>
+  <h2>Was stimmt wirklich?<br>Wir prüfen es nach.</h2>
+  <p>Facta Falsa gleicht Behauptungen mit bereits veröffentlichten Faktenchecks ab – transparent und mit Quellenangabe.</p>
+</section>
+
+<div class="legend">
+  <span class="lbl">UNSERE BEWERTUNGEN:</span>
+  <div class="item"><span class="dot" style="background:var(--true-dot)"></span>Wahr</div>
+  <div class="item"><span class="dot" style="background:var(--mixed-dot)"></span>Teilweise wahr</div>
+  <div class="item"><span class="dot" style="background:var(--false)"></span>Falsch</div>
+  <div class="item"><span class="dot" style="background:#7A7566"></span>Unbekannt</div>
+</div>
+
+<section class="search" id="suche">
+  <h3>Behauptung sofort prüfen</h3>
+  <p>Geben Sie eine Aussage ein – wir durchsuchen veröffentlichte Faktenchecks dazu.</p>
+  <div class="search-row">
+    <input id="input" type="text" maxlength="1000" placeholder="z. B. „Die Inflation lag im letzten Jahr bei über 10 %“">
+    <button id="check" class="btn">Prüfen</button>
+  </div>
+  <div id="charCounter">0 / 1000</div>
+  <div id="loading"><span class="spinner"></span>Suche läuft…</div>
+  <div id="resultCount"></div>
+  <div id="results"></div>
+</section>
+
+<section id="methodik" style="padding:64px;border-bottom:1px solid var(--line)">
+  <h3 style="font-size:26px;margin-bottom:12px">So arbeiten wir</h3>
+  <p style="font-size:15px;color:var(--muted);max-width:640px;line-height:1.6">
+    Ergebnisse stammen aus dem öffentlichen Fact-Check-Verzeichnis. Jede Bewertung verweist auf die prüfende Redaktion und deren Originalartikel.
+  </p>
+</section>
+
+<footer id="kontakt">
+  <div>
+    <div class="brand">Facta Falsa</div>
+    <div style="max-width:320px;line-height:1.6">Unabhängiger Faktencheck. [Impressum] · [Redaktionelle Standards]</div>
+  </div>
+  <div style="line-height:2">
+    <div>[kontakt@factafalsa.de]</div>
+    <div><a href="#">Impressum</a></div>
+    <div><a href="#">Datenschutz</a></div>
+  </div>
+</footer>
+
+<script>
+const input = document.getElementById("input");
+const checkButton = document.getElementById("check");
+const loading = document.getElementById("loading");
+const results = document.getElementById("results");
+const resultCount = document.getElementById("resultCount");
+const charCounter = document.getElementById("charCounter");
+
+const API_URL = "https://factafalsa-backend.random-sachen884.workers.dev/";
+
+function updateCounter() {
+  charCounter.textContent = `${input.value.length} / 1000`;
+}
+input.addEventListener("input", updateCounter);
+checkButton.addEventListener("click", runFactCheck);
+input.addEventListener("keydown", (e) => { if (e.key === "Enter") runFactCheck(); });
+
+async function runFactCheck() {
+  const text = input.value.trim();
+  if (!text) { alert("Bitte zuerst eine Behauptung eingeben."); return; }
+
+  loading.style.display = "flex";
+  checkButton.disabled = true;
+  results.innerHTML = "";
+  resultCount.textContent = "";
+
+  try {
+    const data = await searchFactChecks(text);
+    renderResults(data);
+  } catch (error) {
+    console.error(error);
+    results.innerHTML = `<div class="error"><strong>Fehler</strong><br>${escapeHtml(error.message)}</div>`;
+    resultCount.textContent = "Fehler";
+  } finally {
+    loading.style.display = "none";
+    checkButton.disabled = false;
+  }
+}
+
+async function searchFactChecks(query) {
+  const url = `${API_URL}?query=${encodeURIComponent(query)}`;
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(await response.text());
+  return await response.json();
+}
+
+function renderResults(data) {
+  results.innerHTML = "";
+  if (!data.claims || data.claims.length === 0) {
+    resultCount.textContent = "0 Treffer";
+    results.innerHTML = `<div class="no-result">Zu dieser Aussage wurde kein Faktencheck gefunden.</div>`;
+    return;
+  }
+  resultCount.textContent = `${data.claims.length} Treffer`;
+
+  data.claims.forEach((claim) => {
+    const review = claim.claimReview && claim.claimReview[0];
+    if (!review) return;
+    const publisher = (review.publisher && review.publisher.name) || "Unbekannt";
+    const rating = review.textualRating || "Keine Bewertung";
+    const reviewUrl = review.url || "#";
+    const date = review.reviewDate ? new Date(review.reviewDate).toLocaleDateString("de-DE") : "Kein Datum";
+    const badge = getRatingBadge(rating);
+
+    const card = document.createElement("div");
+    card.className = "fact-card";
+    card.innerHTML = `
+      <div class="rating ${badge.class}"><span class="dot" style="background:currentColor"></span>${escapeHtml(rating)}</div>
+      <div class="claim">${escapeHtml(claim.text || "-")}</div>
+      <div class="publisher">Quelle: ${escapeHtml(publisher)}</div>
+      <div class="date">${date}</div>
+      <a href="${reviewUrl}" target="_blank" rel="noopener">Faktencheck öffnen →</a>
+    `;
+    results.appendChild(card);
+  });
+}
+
+function getRatingBadge(text) {
+  const value = text.toLowerCase();
+  if (value.includes("false") || value.includes("falsch") || value.includes("fake")) return { class: "rating-false" };
+  if (value.includes("true") || value.includes("wahr") || value.includes("correct")) return { class: "rating-true" };
+  if (value.includes("misleading") || value.includes("teilweise") || value.includes("half")) return { class: "rating-mixed" };
+  return { class: "rating-unknown" };
+}
+
+function escapeHtml(str) {
+  const div = document.createElement("div");
+  div.textContent = str;
+  return div.innerHTML;
+}
+</script>
 </body>
 </html>
